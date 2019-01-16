@@ -132,7 +132,7 @@ class Service implements ServiceInterface
             }
         }
 
-        $found = true;
+        $found    = true;
         $instance = null;
 
         if (is_string($this->definition)) {
@@ -186,56 +186,6 @@ class Service implements ServiceInterface
         $this->resolved = true;
 
         return $instance;
-    }
-
-    /**
-     * Changes a parameter in the definition without resolve the service
-     *
-     * @param int $position
-     * @param array $parameter
-     * @return ServiceInterface
-     * @throws Exception
-     */
-    public function setParameter(int $position, array $parameter): ServiceInterface
-    {
-        if (!is_array($this->definition)) {
-            throw new Exception("Definition must be an array to update its parameters");
-        }
-
-        // Update the parameter
-        if (isset($this->definition['arguments'])) {
-            $arguments[$position] = $parameter;
-        } else {
-            $arguments = [$position => $parameter];
-        }
-
-        // Re-update the arguments
-        $this->definition['arguments'] = $arguments;
-
-        return $this;
-    }
-
-    /**
-     * Returns a parameter in a specific position
-     *
-     * @param int $position
-     * @return mixed
-     * @throws Exception
-     */
-    public function getParameter(int $position)
-    {
-        if (!is_array($this->definition)) {
-            throw new Exception("Definition must be an array to obtain its parameters");
-        }
-
-        if (isset($this->definition['arguments'])) {
-            $arguments = $this->definition['arguments'];
-            if (isset($arguments[$position])) {
-                return $arguments[$position];
-            }
-        }
-
-        return null;
     }
 
     /**

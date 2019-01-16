@@ -89,15 +89,14 @@ class Container implements ContainerInterface
      */
     public function attempt(string $name, $definition, bool $shared = false): ServiceInterface
     {
-        if (!isset($this->services[$name])) {
-            $service = new Service($name, $definition, $shared);
-
-            $this->services[$name] = $service;
-
-            return $service;
+        if (isset($this->services[$name])) {
+            return false;
         }
 
-        return false;
+        $service               = new Service($name, $definition, $shared);
+        $this->services[$name] = $service;
+
+        return $service;
     }
 
     /**
@@ -147,8 +146,7 @@ class Container implements ContainerInterface
             $instance            = $this->sharedInstances[$name];
             $this->freshInstance = false;
         } else {
-            $instance = $this->get($name, $parameters);
-
+            $instance                     = $this->get($name, $parameters);
             $this->sharedInstances[$name] = $instance;
             $this->freshInstance          = true;
         }
@@ -292,6 +290,11 @@ class Container implements ContainerInterface
         return false;
     }
 
+    /**
+     * Use ServiceProvider register service
+     *
+     * @param ServiceProviderInterface $provider
+     */
     public function register(ServiceProviderInterface $provider)
     {
         $provider->register($this);

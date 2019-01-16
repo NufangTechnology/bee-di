@@ -15,7 +15,5 @@ interface ServiceInterface
 
     public function resolve($parameters = null, ContainerInterface $dependencyInjector = null);
 
-    public function setParameter(int $position, array $parameter) : ServiceInterface;
-
     public static function __set_state(array $attributes) : ServiceInterface;
 }
